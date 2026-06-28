@@ -2,11 +2,17 @@ import { db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import fs from "fs/promises";
 import path from "path";
+import os from "os";
 
-const MOCK_DB_PATH = path.join(process.cwd(), "lib", "mock-db.json");
+const MOCK_DB_PATH = process.env.VERCEL
+  ? path.join(os.tmpdir(), "mock-db.json")
+  : path.join(process.cwd(), "lib", "mock-db.json");
+
 const IS_MOCKED = 
   !process.env.NEXT_PUBLIC_FIREBASE_API_KEY || 
-  process.env.NEXT_PUBLIC_FIREBASE_API_KEY === "AIzaSyBDFCqpZlwr9mOXtJvMs5pVJnN6D5E9kwA";
+  process.env.NEXT_PUBLIC_FIREBASE_API_KEY === "your-api-key" ||
+  process.env.NEXT_PUBLIC_FIREBASE_API_KEY === "placeholder" ||
+  process.env.NEXT_PUBLIC_FIREBASE_API_KEY === "";
 
 export async function GET(request, { params }) {
   // 1. Await params in newer Next.js versions

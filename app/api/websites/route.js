@@ -2,7 +2,11 @@ import { NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
 
-const MOCK_DB_PATH = path.join(process.cwd(), "lib", "mock-db.json");
+import os from "os";
+
+const MOCK_DB_PATH = process.env.VERCEL
+  ? path.join(os.tmpdir(), "mock-db.json")
+  : path.join(process.cwd(), "lib", "mock-db.json");
 
 // Helper to ensure the directory and file exist
 async function ensureDbExists() {

@@ -11,7 +11,8 @@ let authModule = null;
 const HAS_FIREBASE = 
   process.env.NEXT_PUBLIC_FIREBASE_API_KEY && 
   process.env.NEXT_PUBLIC_FIREBASE_API_KEY !== "your-api-key" &&
-  !process.env.NEXT_PUBLIC_FIREBASE_API_KEY.startsWith("AIzaSyBDFCqpZl");
+  process.env.NEXT_PUBLIC_FIREBASE_API_KEY !== "placeholder" &&
+  process.env.NEXT_PUBLIC_FIREBASE_API_KEY !== "";
 
 export default function AdminDashboard() {
   // Theme state
