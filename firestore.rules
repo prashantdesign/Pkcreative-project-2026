@@ -1,0 +1,16 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Website configs collection
+    match /websites/{subdomain} {
+      // Anyone can read a website config (required for visitors to see shop pages)
+      allow read: if true;
+      
+      // Only authenticated users (you, the admin) can create, update, or delete websites
+      allow write: if request.auth != null;
+    }
+    
+  }
+}
