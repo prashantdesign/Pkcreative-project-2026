@@ -67,10 +67,7 @@ export default function AdminDashboard() {
     // 2. Firebase / Mock database check
     const initFirebase = async () => {
       try {
-        if (
-          process.env.NEXT_PUBLIC_FIREBASE_API_KEY &&
-          process.env.NEXT_PUBLIC_FIREBASE_API_KEY !== "AIzaSyBDFCqpZlwr9mOXtJvMs5pVJnN6D5E9kwA"
-        ) {
+        if (HAS_FIREBASE) {
           const fb = await import("@/lib/firebase");
           db = fb.db;
           auth = fb.auth;
@@ -78,16 +75,21 @@ export default function AdminDashboard() {
           authModule = await import("firebase/auth");
           setIsDemoMode(false);
 
-          authModule.onAuthStateChanged(auth, (user) => {
-            if (user) {
-              setIsLoggedIn(true);
-              setView("list");
-              fetchWebsites(false);
-            } else {
-              setIsLoggedIn(false);
-              setView("login");
-            }
-          });
+          if (auth) {
+            authModule.onAuthStateChanged(auth, (user) => {
+              if (user) {
+                setIsLoggedIn(true);
+                setView("list");
+                fetchWebsites(false);
+              } else {
+                setIsLoggedIn(false);
+                setView("login");
+              }
+            });
+          } else {
+            console.error("Firebase Auth is null, falling back to Demo Mode");
+            setIsDemoMode(true);
+          }
         } else {
           setIsDemoMode(true);
           const mockUser = localStorage.getItem("sb_mock_session");
