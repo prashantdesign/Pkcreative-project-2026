@@ -21,7 +21,7 @@ export async function GET(request, { params }) {
   try {
     let data = null;
 
-    if (IS_MOCKED) {
+    if (IS_MOCKED || !db) {
       // Load from local file in Demo Mode
       try {
         const fileContent = await fs.readFile(MOCK_DB_PATH, "utf-8");
