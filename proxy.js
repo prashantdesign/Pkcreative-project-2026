@@ -29,10 +29,18 @@ export function proxy(req) {
     // Production checks (we split by '.' and check if it's a subdomain)
     // E.g. greenshop.pkcreative.in or greenshop.pkcreative-project2026.vercel.app
     const parts = hostname.split(".");
-    if (parts.length > 2) {
-      // In a 3-part hostname (sub.domain.com), parts[0] is the subdomain
-      // Check that it's not a generic www or admin prefix
-      subdomain = parts[0];
+    const isVercelDomain = hostname.endsWith("vercel.app");
+
+    if (isVercelDomain) {
+      // For Vercel domains, e.g. client.project-name.vercel.app has 4 parts
+      if (parts.length > 3) {
+        subdomain = parts[0];
+      }
+    } else {
+      // For custom domains, e.g. client.yourdomain.com has 3 parts
+      if (parts.length > 2) {
+        subdomain = parts[0];
+      }
     }
   }
 

@@ -16,7 +16,7 @@ const HAS_FIREBASE =
 
 export default function AdminDashboard() {
   // Theme state
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState("light");
 
   // Sidebar / Section Navigation
   const [currentSection, setCurrentSection] = useState("websites"); // 'websites', 'templates', 'deployment'
@@ -56,12 +56,12 @@ export default function AdminDashboard() {
   // Initialize Theme and Firebase
   useEffect(() => {
     // 1. Theme initialization
-    const savedTheme = localStorage.getItem("sb_theme") || "dark";
+    const savedTheme = localStorage.getItem("sb_theme") || "light";
     setTheme(savedTheme);
-    if (savedTheme === "light") {
-      document.documentElement.classList.add("light-mode");
+    if (savedTheme === "dark") {
+      document.documentElement.classList.add("dark-mode");
     } else {
-      document.documentElement.classList.remove("light-mode");
+      document.documentElement.classList.remove("dark-mode");
     }
 
     // 2. Firebase / Mock database check
@@ -109,13 +109,13 @@ export default function AdminDashboard() {
 
   // Theme toggle helper
   const toggleTheme = () => {
-    const nextTheme = theme === "dark" ? "light" : "dark";
+    const nextTheme = theme === "light" ? "dark" : "light";
     setTheme(nextTheme);
     localStorage.setItem("sb_theme", nextTheme);
-    if (nextTheme === "light") {
-      document.documentElement.classList.add("light-mode");
+    if (nextTheme === "dark") {
+      document.documentElement.classList.add("dark-mode");
     } else {
-      document.documentElement.classList.remove("light-mode");
+      document.documentElement.classList.remove("dark-mode");
     }
   };
 
